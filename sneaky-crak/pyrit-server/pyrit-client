@@ -1,0 +1,26 @@
+#!/bin/bash
+
+## Written by Arnaud Meauzoone april 2017
+
+if [ -z "$1" ]
+  then
+    echo "pyrit-server is a wrapper around pyrit that allow you"
+    echo "to use loccally a pyrit instance running on an server"
+    echo "Simply add the ip adress of your server and the port to"
+    echo "server.conf and we will use it"
+    echo " "
+    echo "use 'pyrit-client -h' to see commands"
+    echo " "
+    echo "Written by Arnaud Meauzoone april 2017"
+
+    exit 0
+  else
+    cmd="$@"
+fi
+
+ipAdrr=$(cat server.conf)
+
+if ! wget -q -O - http://$ipAdrr/command --post-data '$cmd' 2>/dev/null ;
+then
+  echo "Error please check server.conf and make sure pyrit-server is running"
+fi
